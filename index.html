@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Caja Supermercado Prisma</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <h1>💳 Caja Supermercado Prisma</h1>
+    <div class="top-actions">
+      <button id="btnNewCatalogItem" class="btn">+ Agregar al catálogo</button>
+      <button id="btnExportSales" class="btn">Exportar ventas CSV</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Entrada de productos -->
+    <section class="card">
+      <h2>Agregar ítems</h2>
+      <div class="pos-inputs">
+        <input id="posBarcode" placeholder="Escaneá/escribí código de barras…" autofocus />
+        <input id="posQty" type="number" min="1" step="1" value="1" />
+        <button id="posAdd" class="btn primary">Agregar</button>
+      </div>
+      <div class="pos-quick-add">
+        <input id="posSearchName" list="posNames" placeholder="O buscá por nombre…" />
+        <datalist id="posNames"></datalist>
+        <button id="posAddByName" class="btn">Agregar por nombre</button>
+      </div>
+
+      <div class="table-wrap small">
+        <table id="posTable">
+          <thead>
+            <tr>
+              <th>Producto</th>
+              <th class="num">Precio</th>
+              <th class="num">Cant.</th>
+              <th class="num">Subtotal</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody><!-- items del carrito --></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Totales y cobro -->
+    <section class="card pos-right">
+      <div class="card soft">
+        <div class="totals-row"><span>Items</span><strong id="posItems">0</strong></div>
+        <div class="totals-row"><span>Subtotal</span><strong id="posSubtotal">$0</strong></div>
+        <div class="totals-row">
+          <label class="chk"><input type="checkbox" id="posApplyIVA" checked> Aplicar IVA 21%</label>
+          <strong id="posIVA">$0</strong>
+        </div>
+        <div class="totals-row total">
+          <span>Total</span><strong id="posTotal">$0</strong>
+        </div>
+      </div>
+
+      <div class="card soft">
+        <div class="field">
+          <label for="posPaymentMethod">Medio de pago</label>
+          <select id="posPaymentMethod">
+            <option value="efectivo">Efectivo</option>
+            <option value="tarjeta">Tarjeta</option>
+            <option value="mp">Mercado Pago</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="posPaid">Importe recibido</label>
+          <input id="posPaid" type="number" min="0" step="0.01" value="0" />
+        </div>
+        <div class="totals-row">
+          <span>Vuelto</span><strong id="posChange">$0</strong>
+        </div>
+        <div class="pos-actions">
+          <button id="posCancel" class="btn ghost">Cancelar venta</button>
+          <button id="posCharge" class="btn primary">Cobrar (F2)</button>
+        </div>
+        <label class="chk small"><input type="checkbox" id="posPrint" checked> Imprimir ticket</label>
+      </div>
+    </section>
+  </main>
+
+  <!-- Modal: Catálogo simple (sin stock) -->
+  <dialog id="catalogModal">
+    <form id="catalogForm" method="dialog" class="modal">
+      <div class="modal-header">
+        <h2 id="catalogTitle">Nuevo producto (catálogo)</h2>
+        <button type="button" class="icon-btn" id="closeCatalog" aria-label="Cerrar">✕</button>
+      </div>
+
+      <div class="grid-2">
+        <div class="field">
+          <label for="catBarcode">Código de barras</label>
+          <input id="catBarcode" placeholder="EAN/UPC o interno" />
+        </div>
+        <div class="field">
+          <label for="catName">Nombre</label>
+          <input id="catName" required placeholder="Ej: Gaseosa 2L" />
+        </div>
+        <div class="field">
+          <label for="catPrice">Precio</label>
+          <input id="catPrice" type="number" step="0.01" min="0" required />
+        </div>
+        <div class="field">
+          <label for="catTax">IVA</label>
+          <select id="catTax">
+            <option value="21" selected>21%</option>
+            <option value="10.5">10,5%</option>
+            <option value="0">0%</option>
+          </select>
+        </div>
+      </div>
+
+      <menu class="modal-actions">
+        <button type="reset" class="btn ghost">Limpiar</button>
+        <button type="submit" class="btn primary">Guardar</button>
+      </menu>
+
+      <input type="hidden" id="catalogId" />
+    </form>
+  </dialog>
+
+
+
+  <script src="app.js"></script>
+</body>
+</html>
